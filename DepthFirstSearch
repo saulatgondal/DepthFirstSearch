@@ -1,0 +1,269 @@
+import java.util.Stack;
+
+
+/**
+ *
+ * @author Saulat Abbas Gondal
+ */
+public class BinaryTree {
+    private Node root;
+    long s=0,et=0,e=0;
+    public Node getRoot() {
+        return root;
+    }
+
+    private static final int COUNT=15;
+    
+    
+    /*This insert code which is written below inserts the new node 
+    and adjust it automatically according to value if the value is greater than root then it goes to right 
+    side otherwise it will go on left of root*/
+    
+public void insert(char val)
+{
+    Node newNode = new Node(); // make new node
+    newNode.setValue(val); // insert data
+
+    if(root==null) // no node in root
+        root = newNode;
+    else // root occupied
+    {
+        Node current = root; // start at root
+        Node parent;
+        while(true) // (exits internally)
+        {
+            parent = current;
+            if(val < current.getValue()) // go left?
+            {
+            current=current.getLeft();
+            if(current == null) // if end of the line,
+            { // insert on left
+            parent.setLeft(newNode);
+            return;
+            }
+            } // end if go left
+            else // or go right?
+            {
+             current = current.getRight();
+             if(current == null) // if end of the line
+             { // insert on right
+             parent.setRight(newNode);
+             return;
+             }
+            } // end else go right
+        } // end while
+    } // end else not root
+} // end insert()
+
+/*The Create Tree function can be modified as per your requirements
+becasue it makes binary tree explicitly we can 
+insert node in our desired location*/
+
+public void createTree(){
+     Node a,b,c,d,e,f,g,h,i,j,k,l,m;
+     a=new Node('A');
+     b=new Node('B');
+     c=new Node('C');
+     d=new Node('D');
+     e=new Node('E');
+     f=new Node('F');
+     g=new Node('G');
+     h=new Node('H');
+     i=new Node('I');
+     j=new Node('J');
+     k=new Node('K');
+     l=new Node('L');
+     m=new Node('M');
+     
+     a.setLeft(b);
+     a.setRight(c);
+     b.setLeft(d);
+     b.setRight(e);
+     e.setLeft(f);
+     e.setRight(g);
+     g.setLeft(h);
+     g.setRight(i);
+     h.setLeft(j);
+     h.setRight(k);
+     j.setLeft(l);
+     j.setRight(m);
+     root=a;
+}
+
+/*Node finding function which returns full Node by searching value/key*/
+
+public Node find(char key) // find node with given key
+{ // (assumes non-empty tree)
+Node current = root; // start at root
+while(current.getValue() != key) // while no match,
+{
+if(key < current.getValue()){ // go left?
+current = current.getLeft();
+}
+else{
+current = current.getRight(); 
+}// or go right?
+if(current == null) {// if no child,
+    return null; // didn’t find it
+}
+}
+return current; // found it
+}
+
+
+/*Recursive DFS Traversals*/
+
+public void inOrder(){
+//wrapper function for inOrder
+    System.out.println("In-Order Traversal: ");
+    inOrderTraversal(root);
+}
+private void inOrderTraversal(Node node){
+    if(node!=null){
+        
+        inOrderTraversal(node.getLeft());
+        System.out.print(" "+node.getValue());
+        inOrderTraversal(node.getRight());
+    }
+  
+}
+
+public void preOrder(){
+//wrapper function for preOrder
+    System.out.println("Pre-Order Traversal: ");
+    preOrderTraversal(root);
+}
+
+private void preOrderTraversal(Node node){
+
+    if(node!=null){
+       
+        System.out.print(" "+node.getValue());
+        preOrderTraversal(node.getLeft());
+        preOrderTraversal(node.getRight());
+    }
+   
+}
+public void postOrder(){
+  //wrapper function for postOrder
+    System.out.println("Post-Order Traversal: ");
+    postOrderTraversal(root);
+}
+private void postOrderTraversal(Node node){
+    
+        postOrderTraversal(node.getLeft());
+        postOrderTraversal(node.getRight());
+    
+        System.out.print(" "+node.getValue());
+    }
+   
+}
+
+/*Non-Recursive Algorithms for DFS Traversals*/
+
+public void preOrderWithoutRecursion()
+{ 
+   
+    Stack<Node> nodes = new Stack<>(); 
+    nodes.push(root); 
+    while (!nodes.isEmpty()) 
+    { 
+        Node current = nodes.pop(); 
+        
+        System.out.print(current.getValue()+" "); 
+        
+        if (current.getRight() != null) 
+        { 
+            nodes.push(current.getRight()); 
+        } 
+        if (current.getLeft() != null) 
+        { 
+            nodes.push(current.getLeft()); 
+        }
+        
+    }
+    
+    
+}
+    public void postOrderWithoutRecursion(){
+      /*wrapper function for the non-recursive postOrder traversal */
+        Node n=root;
+       postOrderIterative(n);
+       
+    }
+    private void postOrderIterative(Node root) {
+        
+        Stack<Node> stack = new Stack<>();
+        while(true) {
+            while(root != null) {
+                stack.push(root);
+                stack.push(root);
+                root = root.getLeft();
+           
+            }
+            
+             
+            // Check for empty stack
+            if(stack.empty()) 
+                return;
+            root = stack.pop();
+             
+            if(!stack.empty() && stack.peek() == root)
+                root = root.getRight();
+             
+            else {
+                 
+                System.out.print(root.getValue() + " "); 
+                root = null;
+            }
+        }
+    }
+    
+   public void inOrderWithoutRecursion(){
+      
+      Node n=root;
+       inOrderIterative(n);
+       
+   }
+    private void inOrderIterative(Node root)
+    {
+       
+        if (root == null)
+            return 0;
+ 
+        
+        Stack<Node> stack = new Stack <>();
+        Node current = root;
+ 
+        // traverse the tree
+        while (current != null || stack.size() > 0)
+        {
+ 
+            /* Reach the left most Node of the
+            curr Node */
+            while (current !=  null)
+            {
+                /* place pointer to a tree node on
+                   the stack before traversing
+                  the node's left subtree */
+                stack.push(current);
+                current = current.getLeft();
+                
+            }
+ 
+            /* Current must be NULL at this point */
+            current = stack.pop();
+            
+            
+          
+            System.out.print(current.getValue() + " ");
+            /* we have visited the node and its
+               left subtree.  Now, it's right
+               subtree's turn */
+            current = current.getRight();
+        }
+        return;
+    }
+ 
+}
+ 
