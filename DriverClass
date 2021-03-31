@@ -1,0 +1,34 @@
+/**
+ *
+ * @author Saulat Abbas Gondal
+ */
+public class DriverClass {
+    public static void main (String[] gondal){
+        BinaryTree bt=new BinaryTree();
+
+        bt.createTree();
+        
+        
+        System.out.println("\nRecursive Traversals\n");
+        bt.preOrder();
+
+        
+        bt.postOrder();
+       
+        bt.inOrder();
+        System.out.println("\n\nNon-Recursive Stack-based Traversals");
+         System.out.println("\nPre-Order without recursion:");
+        bt.preOrderWithoutRecursion();
+        
+        System.out.println("\nPost-Order without recursion:");
+        bt.postOrderWithoutRecursion();
+        
+
+
+        System.out.println("\nIn-Order without recursion:");
+        bt.inOrderWithoutRecursion();
+        
+        
+    }
+    
+} 
